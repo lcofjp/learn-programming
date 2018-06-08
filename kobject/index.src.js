@@ -1,17 +1,18 @@
+
+
 class Rate {
   constructor(rate) {
     this.rate = rate;
   }
   toString() {
-    return this.rate * 100 + '%'
+    return (this.rate * 100).toFixed(2) + '%'
   }
   valueOf() {
     return this.rate
   }
 }
 
-var x = new Rate(0.12);
+var x = new Rate(0.1 + 0.2);
 
-console.log(x);
-console.log(Object.prototype.toString.call(x))
-console.log(x.__proto__.toString === x.toString)
+
+document.getElementById('root').innerHTML = x;
