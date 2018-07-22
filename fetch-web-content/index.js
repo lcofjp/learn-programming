@@ -3,6 +3,7 @@ const request = require('request')
 
 // testUrl: https://download.csdn.net/user/u011433684/uploads/1
 // https://download.csdn.net/user/vanridin/uploads/
+// https://download.csdn.net/user/ramissue/uploads/1
 
 function fetchWebContent(url) {
   return new Promise(function(resolve, reject) {
@@ -43,7 +44,7 @@ const getNextPage = (function(n) {
       return null;
     }
   }
-})(215);
+})(277);
 
 var arr = [];
 
@@ -52,10 +53,10 @@ function fetchPage(pageNum) {
   if (pageNum == null) {
     var allTitles = JSON.stringify(arr, null, '  ');
     var fs = require('fs');
-    fs.writeFileSync('books-list2.txt', allTitles);
+    fs.writeFileSync('books-list1.txt', allTitles);
     return;
   } else {
-    nextUrl = `https://download.csdn.net/user/vanridin/uploads/${pageNum}`
+    nextUrl = `https://download.csdn.net/user/ramissue/uploads/${pageNum}`
   }
   fetchTitles(nextUrl).then(titles => {
     console.log(pageNum, titles);
