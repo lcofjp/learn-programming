@@ -189,7 +189,6 @@
         paper.project.view.update();
         var pngData = canvas.toDataURL();
         paper.project.view.scale(1/ratio, new paper.Point(0,0));
-        console.log(pngData);
         var tempAnchor = document.createElement('a');
         tempAnchor.href = pngData;
         tempAnchor.download = 'logo.png';
