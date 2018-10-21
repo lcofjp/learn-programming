@@ -51,13 +51,10 @@
   </script>
   <style>
     .canvas-wrap {
-      /* border: 1px solid #eee; */
       box-sizing: content-box;
       width: 256px;
       height: 256px;
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
+      margin: 0 auto;
     }
     pre {
       font-family: monospace;
@@ -67,6 +64,14 @@
       position: relative;
       max-width: 100%;
       overflow: hidden;
+    }
+    .content-wrap {
+      position: absolute;
+      width: 300px;
+      padding-top: 100px;
+      top: 0;
+      left: 50%;
+      transform: translate(-50%, 0);
     }
     #drawing-canvas {
       display: none;
@@ -93,22 +98,35 @@
     .png-size input,
     .png-size label {
       display: inline-block;
-      width: 45%;
+      width: 46%;
+    }
+    .png-size {
+      border-radius: 10px;
+      line-height: 2.8;
+      background: #40c057;
+      padding-left: 5px;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .png-size label {
+      color: white;
     }
   </style>
 </head>
 <body>
   <pre class="logo-code">
   </pre>
-  <div class="canvas-wrap">
-      <canvas id="logo-canvas" width="256" height="256"></canvas>
+  <div class="content-wrap">
+      <div class="canvas-wrap">
+          <canvas id="logo-canvas" width="256" height="256"></canvas>
+      </div>
+      <canvas id="drawing-canvas" width="256" height="256" resize></canvas>
+      <div class="png-size">
+        <label>png尺寸:</label><input type="number" value="256">
+      </div>
+      <a class="btn download-png">下载png</a>
+      <a download="logo.svg" class="btn download-svg">下载svg</a>
   </div>
-  <canvas id="drawing-canvas" width="256" height="256" resize></canvas>
-  <div class="png-size">
-    <label>png尺寸:</label><input type="number" value="256">
-  </div>
-  <a class="btn download-png">下载png</a>
-  <a download="logo.svg" class="btn download-svg">下载svg</a>
 
   <script>
     var source = document.querySelector('script[type="text/paperscript"');
