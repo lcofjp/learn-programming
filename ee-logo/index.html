@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>ee-logo</title>
+  <script src="./paper-full.min.js"></script>
+  <script type="text/paperscript" canvas="logo-canvas">
+    // 定义logo黑底
+    var topLeft = new Point(0, 0);
+    var size = new Size(246, 246);
+    var logoBgRect = new Rectangle(topLeft, size);
+    // 定义logo红底
+    var logoBgRed = new Path.Rectangle(new Rectangle(topLeft + [10, 10], size), 20);
+    logoBgRed.fillColor = '#dc0320';
+    // 圆角20px
+    var logoBg = new Path.Rectangle(logoBgRect, 20);
+    logoBg.fillColor = 'black';
+
+    // 定义中间弧形
+    var arcCenter = new Point(164, 123);
+    var arcRadius = 88;
+    var arcWidth = 50;
+    var arcBottom = arcCenter + [0, arcRadius];
+    var arcLeft = arcCenter + [-arcRadius, 0];
+    var arcTop = arcCenter + [0, -arcRadius];
+    var bigArc = new Path.Arc(arcBottom, arcLeft, arcTop);
+    bigArc.strokeColor = 'white';
+    bigArc.strokeWidth = arcWidth;
+
+    // 画上下两个小圆
+    var topCircleCenter = arcCenter - [0, arcRadius];
+    var bottomCircleCenter = arcCenter + [0, arcRadius];
+    var topCircle = new Path.Circle(topCircleCenter, arcWidth/2);
+    var bottomCircle = new Path.Circle(bottomCircleCenter, arcWidth/2);
+    topCircle.fillColor = 'white';
+    bottomCircle.fillColor = 'white';
+
+    // 中间小圆
+    var centerCircle = new Path.Circle(arcCenter, 34);
+    // 渐变颜色 #f39b1f
+    centerCircle.fillColor = {
+        gradient: {
+            stops: ['white', '#f39b1f'],
+            radial: true
+        },
+        origin: centerCircle.position,
+        destination: centerCircle.bounds.rightCenter
+    }
+  </script>
+  <style>
+    .canvas-wrap {
+      /* border: 1px solid #eee; */
+      box-sizing: content-box;
+      width: 256px;
+      height: 256px;
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    pre {
+      font-family: monospace;
+      background: black;
+      color: green;
+      opacity: 0.8;
+      position: relative;
+      max-width: 100%;
+      overflow: hidden;
+    }
+    #drawing-canvas {
+      display: none;
+    }
+    a.btn {
+      cursor: pointer;
+      width: 8em;
+      line-height: 2.8;
+      display: block;
+      margin: 2em auto;
+      background: #40c057;
+      color: white;
+      text-align: center;
+      border-radius: 10px;
+      text-decoration: none;
+    }
+    a.btn:hover {
+      background: #2f9e44;
+    }
+    .png-size {
+      width: 10em;
+      margin: 2em auto;
+    }
+    .png-size input,
+    .png-size label {
+      display: inline-block;
+      width: 45%;
+    }
+  </style>
+</head>
+<body>
+  <pre class="logo-code">
+  </pre>
+  <div class="canvas-wrap">
+      <canvas id="logo-canvas" width="256" height="256"></canvas>
+  </div>
+  <canvas id="drawing-canvas" width="256" height="256" resize></canvas>
+  <div class="png-size">
+    <label>png尺寸:</label><input type="number" value="256">
+  </div>
+  <a class="btn download-png">下载png</a>
+  <a download="logo.svg" class="btn download-svg">下载svg</a>
+
+  <script>
+    var source = document.querySelector('script[type="text/paperscript"');
+    var pre = document.querySelector('pre');
+    if (source && pre) {
+      pre.innerText = source.innerText;
+    }
+    // init Paper Prject
+    paper.setup('drawing-canvas');
+    // 定义logo黑底
+    var topLeft = new paper.Point(0, 0);
+    var size = new paper.Size(246, 246);
+    var logoBgRect = new paper.Rectangle(topLeft, size);
+    // 定义logo红底
+    var logoBgRed = new paper.Path.Rectangle(new paper.Rectangle(topLeft.add([10, 10]), size), 20);
+    logoBgRed.fillColor = '#dc0320';
+    // 圆角20px
+    var logoBg = new paper.Path.Rectangle(logoBgRect, 20);
+    logoBg.fillColor = 'black';
+
+    // 定义中间弧形
+    var arcCenter = new paper.Point(164, 123);
+    var arcRadius = 88;
+    var arcWidth = 50;
+    var arcBottom = arcCenter.add([0, arcRadius]);
+    var arcLeft = arcCenter.add([-arcRadius, 0]);
+    var arcTop = arcCenter.add([0, -arcRadius]);
+    var bigArc = new paper.Path.Arc(arcBottom, arcLeft, arcTop);
+    bigArc.strokeColor = 'white';
+    bigArc.strokeWidth = arcWidth;
+
+    // 画上下两个小圆
+    var topCircleCenter = arcCenter.subtract([0, arcRadius]);
+    var bottomCircleCenter = arcCenter.add([0, arcRadius]);
+    var topCircle = new paper.Path.Circle(topCircleCenter, arcWidth/2);
+    var bottomCircle = new paper.Path.Circle(bottomCircleCenter, arcWidth/2);
+    topCircle.fillColor = 'white';
+    bottomCircle.fillColor = 'white';
+
+    // 中间小圆
+    var centerCircle = new paper.Path.Circle(arcCenter, 34);
+    // 渐变颜色 #f39b1f
+    centerCircle.fillColor = {
+        gradient: {
+            stops: ['white', '#f39b1f'],
+            radial: true
+        },
+        origin: centerCircle.position,
+        destination: centerCircle.bounds.rightCenter
+    }
+    var jsonStr = paper.project.exportJSON();
+    var svgStr = paper.project.exportSVG().outerHTML;
+    var svgDl = document.querySelector('.btn.download-svg');
+    if (svgDl) {
+      svgDl.href = "data:image/svg+xml," + encodeURIComponent(svgStr);
+    }
+    var pngDlBtn = document.querySelector('.btn.download-png');
+    if (pngDlBtn) {
+      pngDlBtn.onclick = function() {
+        var pngSize = 256;
+        var sizeInput = document.querySelector('.png-size input');
+        if (sizeInput) {
+          pngSize = parseInt(sizeInput.value) || 256;
+        }
+        if (pngSize < 16) {
+          pngSize = 16;
+        } else if (pngSize > 4000) {
+          pngSize = 4000;
+        }
+        var ratio = pngSize / 256;
+        var canvas = document.querySelector('#drawing-canvas');
+        if (!canvas) {
+          return;
+        }
+        canvas.width = pngSize;
+        canvas.height = pngSize;
+        paper.project.view.scale(ratio, new paper.Point(0,0));
+        paper.project.view.update();
+        var pngData = canvas.toDataURL();
+        paper.project.view.scale(1/ratio, new paper.Point(0,0));
+        console.log(pngData);
+        var tempAnchor = document.createElement('a');
+        tempAnchor.href = pngData;
+        tempAnchor.download = 'logo.png';
+        const event = document.createEvent('MouseEvents');
+        event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+        tempAnchor.dispatchEvent(event);
+      }
+    }
+  </script>
+</body>
+</html>
