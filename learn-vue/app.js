@@ -84,7 +84,18 @@ var vm = new Vue({
         click: function(){console.log('click'); this.a++;},
         toggleInput: function(){
             this.isInputName = !this.isInputName;
-        }
+        },
+        alertMessage: function(msg){
+            window.alert(msg);
+        },
+        input: function(e) {
+            if (e && e.key) {
+                console.log(e.key);
+            }
+        },
+        submit: function(e) {
+            console.log('submit');
+        },
     },
     created: function() {
         // this === vm

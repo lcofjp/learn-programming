@@ -40,6 +40,8 @@
         <ul>
             <li v-for="num in nums">{{num}}</li>
         </ul>
+        <button @click.keyup="" @click="alertMessage(a)">alert</button>
+        <input @keyup="input" @keyup.enter.once="submit">
     </div>
     <img src="./lifecycle.png">
     <script src="./app.js"></script>
