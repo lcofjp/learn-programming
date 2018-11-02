@@ -17,7 +17,29 @@
         {{a}}
         {{cplus1}}
         {{now}}
+        <p>name: {{name}}</p>
+        <p>email: {{email}}</p>
         <button v-on:click="click">点击</button>
+        <br>
+        <label v-if="isInputName">
+            input1:
+            <input v-model="name">
+        </label>
+        <label v-else>
+            input2:
+            <input>
+        </label>
+        <button @click="toggleInput">toggle</button>
+        <ul>
+            <li v-for="num in list">{{num*num}}</li>
+        </ul>
+        <hr>
+        <div>
+            {{o.a}},{{o.b}},{{o.c}},{{o.d}}
+        </div>
+        <ul>
+            <li v-for="num in nums">{{num}}</li>
+        </ul>
     </div>
     <img src="./lifecycle.png">
     <script src="./app.js"></script>

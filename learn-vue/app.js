@@ -1,7 +1,9 @@
 /**
  * v-bind:title="message" 绑定数据到attribute
  * v-if="seen" 条件渲染
- * v-for="todo in todos" 循环渲染
+ * v-for="todo in todos" 循环渲染; v-for具有比v-if更高的优先级
+ * <li v-for="(item, index) in list">
+ * <div v-for="(value, key, index) in object"> 这个是按着Object.keys()的顺序遍历的
  * v-on:click="handler" 设置处理事件
  * v-model="message" 表单双向绑定
  * v-html="rawHtml" 渲染原始html字符串
@@ -26,14 +28,24 @@
  * 1. v-bind:href="url"  ==> :href="url"
  * 2. v-on:click="handler" ==> @click="handler"
  */
-
+var c = 0;
+var o = {a: 1, b: 2}
+Object.defineProperty(o, "c", {
+    get: function(){return c;},
+    set: function(val){ c = val; }
+})
 var vm = new Vue({
     el: '#root1',
     data: {
         a: 1,
         c: 3,
         // 经测试属性不能以下划线开头。。。
-        p_num: 0
+        p_num: 0,
+        name: '',
+        email: '',
+        isInputName: true,
+        list: [1,2,3,4,5],
+        o: o
     },
     // 计算属性，用于从data计算得到的属性
     // 计算属性是响应求值的，只有它依赖的属性发生变化才会重新求值，否则会使用缓存的值。
@@ -56,17 +68,23 @@ var vm = new Vue({
                     throw Error('num should be set to number type');
                 }
             }
-        }
+        },
+        nums: function(){return [4,5,6,7];}
     },
     // 侦听属性，这个木有缓存，具有副作用的事件应该使用侦听属性
     watch: {
         c: function(){
             // 当属性c改变时，这个函数会被调用
             console.log('c property changed');
+        },
+        name: function(){
         }
     },
     methods: {
-        click: function(){console.log('click'); this.a++;}
+        click: function(){console.log('click'); this.a++;},
+        toggleInput: function(){
+            this.isInputName = !this.isInputName;
+        }
     },
     created: function() {
         // this === vm
